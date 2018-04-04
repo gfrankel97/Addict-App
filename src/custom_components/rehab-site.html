@@ -1,0 +1,84 @@
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="home-page.html">
+<link rel="import" href="results-page.html">
+
+<dom-module id="rehab-site">
+    <style>
+        :host, iron-pages, home-page, results-page {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+
+    <template>
+        <iron-pages selected="[[ state ]]">
+            <home-page></home-page>
+            <results-page results="[[ results ]]"></results-page>
+        </iron-pages>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'rehab-site',
+
+            properties: {
+                state: {
+                    type: Number,
+                    value: 0
+                },
+                results: Array
+            },
+
+            listeners: {
+                'query': 'api_request',
+                'back_to_search': 'back_to_search'
+            },
+
+            api_request: function (event) {
+                console.log('implement API when back end is done');
+                this.state = 1;
+                this.results = [
+                    { 
+                        'id': 0,
+                        'name': 'foo',
+                        'location': '1234 Main Street',
+                        'openBeds': 50,
+                        'maxBeds': 200,
+                        'latitude': 38,
+                        'longitude': -85,
+                        'phone': '867-5309',
+                        'url': 'https://www.foo.bar/'
+                    },
+                    { 
+                        'id': 1,
+                        'name': 'bar',
+                        'location': '431 1st Street',
+                        'openBeds': 3,
+                        'maxBeds': 20,
+                        'latitude': 40,
+                        'longitude': -74,
+                        'phone': '867-5309',
+                        'url': 'https://www.foo.bar/'
+                    },
+                    { 
+                        'id': 2,
+                        'name': 'baz',
+                        'location': '8 Broadway',
+                        'openBeds': 0,
+                        'maxBeds': 60,
+                        'latitude': 47,
+                        'longitude': -122,
+                        'phone': '867-5309',
+                        'url': 'https://www.foo.bar/'
+                    },
+                ]
+            },
+
+            back_to_search: function (event) {
+                this.state = 0;
+            }
+        });
+    </script>
+</dom-module>
+

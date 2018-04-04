@@ -1,0 +1,35 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/google-map/google-map.html">
+
+<dom-module id="hospital-info">
+    <template>
+        <style>
+            :host, google-map {
+                display: block;
+                height: 100%;
+                width: 100%;
+            }
+        </style>
+
+        <google-map fit-to-marker api-key="AIzaSyBU11-PY3oKECx9G6UmYOqxWRK1SXuFwOY"
+            latitude="[[ info.latitude ]]"
+            longitude="[[ info.longitude ]]">
+            <google-map-marker slot="markers"
+                latitude="[[ info.latitude ]]" 
+                longitude="[[ info.longitude ]]"
+                draggable="true">
+            </google-map-marker>
+        </google-map>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'hospital-info',
+
+            properties: {
+                info: Object,
+            }
+        });
+    </script>
+</dom-module>
