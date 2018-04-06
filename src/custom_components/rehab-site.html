@@ -8,13 +8,15 @@
             display: block;
             width: 100%;
             height: 100%;
+            top: -8px;
+            left: -8px;
         }
     </style>
 
     <template>
         <iron-pages selected="[[ state ]]">
             <home-page></home-page>
-            <results-page results="[[ results ]]"></results-page>
+            <results-page id="results_page" results="[[ results ]]"></results-page>
         </iron-pages>
     </template>
 
@@ -77,6 +79,7 @@
 
             back_to_search: function (event) {
                 this.state = 0;
+                this.$.results_page.reset();
             }
         });
     </script>

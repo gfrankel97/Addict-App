@@ -4,6 +4,7 @@
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../bower_components/paper-styles/paper-styles.html">
 <link rel="import" href="results-list.html">
 <link rel="import" href="hospital-info.html">
 
@@ -17,7 +18,7 @@
             width: 300px;
             background-color: var(--paper-grey-100);
             border-right: 2px solid rgba(0,0,0,0.1);
-            apply(--shadow-elevation-2dp);
+            @apply(--shadow-elevation-2dp);
         }
 
         .info {
@@ -26,8 +27,9 @@
             width: 100%;
             text-align: center;
             padding: 4px;
-            background-color: var(--paper-grey-100);
+            background-color: #81D4FA;
             border-top: 2px solid rgba(0,0,0,0.1);
+            border-bottom: 2px solid rgba(0,0,0,0.1);
         }
 
         .viewport {
@@ -48,35 +50,43 @@
             height: 100px;
             border-bottom: 1px solid rgba(0,0,0,0.1);
         }
+
+        h2 {
+            margin-bottom: 4px;
+            padding-right: 40px;
+        }
+
+        #return_to_search {
+            height: 50px;
+        }
     </style>
 
     <template>
-        <div class="viewport">
-            <iron-collapse class="sidebar" opened="[[ menu_open ]]" horizontal>
-                <paper-icon-item on-tap="return_to_search">
-                    <iron-icon icon="icons:arrow-back" slot="item-icon"></iron-icon>
-                    Back to search screen
-                </paper-icon-item>
-                <results-list results="[[ results ]]" selected_result="{{ result }}"></paper-table>
-            </iron-collapse>
-            <hospital-info info="[[ result ]]">
-            </hospital-info>
-        </div>
         <div class="info">
             <paper-icon-button class="button" icon="menu" active="{{ menu_open }}" toggles></paper-icon-button>
             <template is="dom-if" if="[[ result ]]">
                 <h2>[[ result.name ]]</h2>
                 <div>
-                    [[ result.openBeds ]] / [[ result.maxBeds ]] openings
+                    [[ result.openBeds ]] Openings
                     <br />
                     [[ result.location ]]
                     <br />
                     Phone: [[ result.phone ]] - Website: <a href="[[ result.url ]]">[[ result.url ]]</a>
                 </div>
             </template>
-            <template is="dom-if" if="[[ !result ]]">
-                <h2>Select a result</h2>
+            <template is="dom-if" if="[[ !get_result() ]]">
+                <h2>Select a resource</h2>
             </template>
+        </div>
+        <div class="viewport">
+            <iron-collapse class="sidebar" opened="[[ menu_open ]]" horizontal>
+                <paper-icon-item id="return_to_search" on-tap="return_to_search">
+                    <iron-icon icon="icons:arrow-back" slot="item-icon"></iron-icon>
+                    Back to Search
+                </paper-icon-item>
+                <results-list results="[[ results ]]" selected_result="{{ result }}"></paper-table>
+            </iron-collapse>
+            <hospital-info info="[[ result ]]"></hospital-info>
         </div>
     </template>
 
@@ -96,6 +106,14 @@
 
             return_to_search: function (event) {
                 this.fire('back_to_search');
+            },
+
+            get_result: function(result) {
+                return !(this.result === undefined);
+            },
+
+            reset: function() {
+                this.result = undefined;
             }
         });
     </script>
