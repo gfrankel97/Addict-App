@@ -11,6 +11,7 @@
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 
 
 <!-- Defines element markup -->
@@ -18,36 +19,28 @@
     <style>
         #page {
             background-color: #F5F5F5;
+            height: 100%;
         }
 
         paper-card {
             color: #B0BEC5;
             display: block;
-            width: 100%;
+            width: calc(100% - 32px);
             background-color: #EEEEEE;
             margin: 16px;
+            
         }
 
         app-toolbar {
             background-color: #81D4FA;
-            margin-bottom: 16px; 
+            @apply(--shadow-elevation-4dp);
+            margin-bottom: 4px;
         }
 
         .main-title {
             text-align: center;
-            width:100%;
-        }
-
-        #header {
+            width: 100%;
             font-size: 24px;
-            text-align: center;
-            width:100%;
-        }
-
-        .sub-title {
-            text-align: center;
-            display: block;
-            padding: 16px;
         }
 
         .section-title {
@@ -56,26 +49,20 @@
             color: #000000;
         }
 
-        .columns {
-            display: flex;
-            flex-direction: row;
-        }
-
-        ul {
-            margin: 0;
-            padding: 0;
-        }
-
-        li {
-            display: block;
-            margin: 8px 0;
-            padding: 8px 16px;
-            position: relative;
+        #survey_container {
+            height: calc(100% - 136px);
+            color: #EEEEEE;
+            overflow-y: auto;
         }
 
         paper-checkbox {
             --paper-checkbox-checked-color: #81D4FA;
-            width: 80%;
+            white-space: auto;
+            --paper-checkbox-label : {
+                width: calc(100% - 18px);
+            };
+            width: calc(100% - 16px);
+            padding: 16px;
         }
 
         paper-button {
@@ -85,7 +72,10 @@
             background-color: #FFFFFF;
             font-size: 16px;
             font-weight: bold;
-            margin: 0px 8px 12px 12px;
+            margin: 12px;
+            position: absolute;
+            z-index: 10;
+            bottom: 0px;
         }
 
         paper-radio-button {
@@ -96,15 +86,8 @@
             background-color: #E1F5FE;
         }
 
-        #container {
-            color: #EEEEEE;
-            overflow-x: scroll;
-        }
-
-        .select_all {
-            border-bottom: 1px dashed black;
-            padding-bottom: 16px;
-            width: 90%;
+        #submit {
+            @apply(--shadow-elevation-2dp);
         }
 
     </style>
@@ -115,134 +98,30 @@
                     <div main-title class="main-title">Rehab Resources</div>
                 </app-toolbar>
             </app-header>
-            <div id="header">Selection Survey</div>
-            <div id="container">
-                <div class="columns">
-                    <paper-card id="drug">
+            <div id="survey_container">
+            <iron-pages id="survey_pages" selected="[[ current_page ]]">
+                <div id="survey_page_one">
+                    <paper-card id="drugs">
                         <div class="section-title">Drugs</div>
-                        <div>
-                            <ul id="drugs_list">
-                                <li>
-                                    <paper-checkbox class="select_all" on-tap="select_all_drugs">Select All</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Alcohol</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Cocaine</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Crack Cocaine</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Heroin</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Methamphetamine</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Hydrocodone (Hysingla ER, Zohydro ER) </paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Hydrocodone/Acetaminophen (Lorcet, Lortab, Norco, Vicodin)</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Fentanyl (Actiq, Duragesic, Fentora)</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Hydromorphone (Dilaudid, Exalgo)</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Meperidine (Demerol)</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Methadone (Dolophine, Methadose)</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Morphine (Astramorph, Avinza, Kadian, MS Contin, Ora-Morph SR)</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Oxycodone (OxyContin, Oxecta, Roxicodone)</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Oxycodone and Acetaminophen (Percocet, Endocet, Roxicet)</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Oxycodone and Naloxone (Targiniq ER)</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Solvents (aerosols, gases and glues)</paper-checkbox>
-                                </li>
-                            </ul>
-                        </div>
+                        <template is="dom-repeat" items="[[ drugs ]]" as="drug">
+                            <paper-checkbox >[[ drug ]]</paper-checkbox>
+                        </template>
                     </paper-card>
-                    <paper-card id="symptoms">
+                    <paper-card id="symptoms" hidden>
                         <div class="section-title">Symptoms</div>
-                        <div>
-                            <ul id="symptoms_list">
-                                <li>
-                                    <paper-checkbox class="select_all" on-tap="select_all_symptoms">Select All</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Constipation</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Drowsiness</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Nausea</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Vomiting</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Diarrhea</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Muscle Pain</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Anxiety</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Irritability</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Headache</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Difficulty concentrating</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Tremors</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Disturbed sleep</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Irregular heart rate</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Panic attacks</paper-checkbox>
-                                </li>
-                                <li>
-                                    <paper-checkbox>Sweating</paper-checkbox>
-                                </li>
-                            </ul>
-                        </div>
+                        <template is="dom-repeat" items="[[ symptoms ]]" as="symptom">
+                            <paper-checkbox >[[ symptom ]]</paper-checkbox>
+                        </template>
                     </paper-card>
                     <paper-card>
                         <div class="section-title">Gender</div>
-                        <div>
                             <paper-radio-group id="gender">
                                 <paper-radio-button name="male">Male</paper-radio-button><br>
                                 <paper-radio-button name="female">Female</paper-radio-button>
                             </paper-radio-group>
-                        </div>
                     </paper-card>
                     <paper-card>
                         <div class="section-title">Ethnicity</div>
-                        <div>
                             <paper-radio-group id="ethnicity">
                                 <paper-radio-button name="white">White/Caucasian</paper-radio-button><br>
                                 <paper-radio-button name="black">Black/African-American</paper-radio-button><br>
@@ -251,21 +130,19 @@
                                 <paper-radio-button name="native">Native American</paper-radio-button><br>
                                 <paper-radio-button name="other">Other</paper-radio-button>
                             </paper-radio-group>
-                        </div>
                     </paper-card>
                     <paper-card>
                         <div class="section-title">Age</div>
-                        <div>
                             <paper-radio-group id="age">
                                 <paper-radio-button name="18_to_30">18-30 years old</paper-radio-button><br>
                                 <paper-radio-button name="31_to_50">31-50 years old</paper-radio-button><br>
                                 <paper-radio-button name="50_plus">50+ years old</paper-radio-button><br>
                             </paper-radio-group>
-                        </div>
                     </paper-card>
                 </div>
+            </iron-pages>
             </div>
-            <paper-button on-tap="submit">Submit</paper-button>
+            <paper-button id="submit" on-tap="submit">[[ button_text ]]</paper-button>
         </div>
     </template>
 </dom-module>
@@ -275,13 +152,31 @@
 Polymer({
     is: 'home-page',
     properties: {
-        drug_selection: {
-            type: String,
-            value: ''
-        },
-        selected: {
+        drugs: {
             type: Array,
-            value: []
+            value: ["Alcohol", "Cocaine",
+                    "Crack Cocaine", "Heroin", "Methamphetamine",
+                    "Hydrocodone (Hysingla ER, Zohydro ER) ",
+                    "Hydrocodone/Acetaminophen (Lorcet, Lortab, Norco, Vicodin)",
+                    "Fentanyl (Actiq, Duragesic, Fentora)", "Hydromorphone (Dilaudid, Exalgo)",
+                    "Meperidine (Demerol)", "Methadone (Dolophine, Methadose)",
+                    "Morphine (Astramorph, Avinza, Kadian, MS Contin, Ora-Morph SR)",
+                    "Oxycodone (OxyContin, Oxecta, Roxicodone)",
+                    "Oxycodone and Acetaminophen (Percocet, Endocet, Roxicet)",
+                    "Oxycodone and Naloxone (Targiniq ER)",
+                    "Solvents (aerosols, gases and glues)"]
+        },
+        symptoms: {
+            type: Array,
+            value: ["Constipation", "Drowsiness",
+                    "Nausea", "Vomiting", "Diarrhea", "Muscle Pain",
+                    "Anxiety", "Irritability", "Headache", "Difficulty concentrating", 
+                    "Tremors", "Disturbed sleep", "Irregular heart rate",
+                    "Panic attacks", "Sweating"]
+        },
+        button_text: {
+            type: String,
+            value: 'NEXT (1/3)'
         },
         all_drugs_checked: {
             type: Boolean,
@@ -290,29 +185,33 @@ Polymer({
         all_symptoms_checked: {
             type: Boolean,
             value: false
+        },
+        current_page: {
+            type: Number,
+            value: 0
         }
     },
 
-    select_all_drugs: function () {
-        this.all_drugs_checked = !this.all_drugs_checked;
-        var checkboxes = this.$.drugs_list.querySelectorAll('paper-checkbox');
-        for(var i=0; i < checkboxes.length; i++) {
-            checkboxes[i].checked = this.all_drugs_checked;
-        }
-    },
+//     select_all_drugs: function () {
+//         this.all_drugs_checked = !this.all_drugs_checked;
+//         var checkboxes = this.$.drugs_list.querySelectorAll('paper-checkbox');
+//         for(var i=0; i < checkboxes.length; i++) {
+//             checkboxes[i].checked = this.all_drugs_checked;
+//         }
+//     },
 
-    select_all_symptoms: function () {
-        this.all_symptoms_checked = !this.all_symptoms_checked;
-        var checkboxes = this.$.symptoms_list.querySelectorAll('paper-checkbox');
-        for(var i=0; i < checkboxes.length; i++) {
-            checkboxes[i].checked = this.all_symptoms_checked;
-        }
-    },
+//     select_all_symptoms: function () {
+//         this.all_symptoms_checked = !this.all_symptoms_checked;
+//         var checkboxes = this.$.symptoms_list.querySelectorAll('paper-checkbox');
+//         for(var i=0; i < checkboxes.length; i++) {
+//             checkboxes[i].checked = this.all_symptoms_checked;
+//         }
+//     },
 
     submit: function () {
         var payload = {
-                drugs: this.get_checked_boxes(this.$.drugs_list.querySelectorAll('paper-checkbox')),
-                symptoms: this.get_checked_boxes(this.$.symptoms_list.querySelectorAll('paper-checkbox')),
+                drugs: this.get_checked_boxes(this.$.drugs.querySelectorAll('paper-checkbox')),
+                symptoms: this.get_checked_boxes(this.$.symptoms.querySelectorAll('paper-checkbox')),
                 gender: this.$.gender.selected,
                 ethnicity: this.$.ethnicity.selected,
                 age: this.$.age.selected
@@ -327,6 +226,7 @@ Polymer({
                 checked.push(checkbox.querySelector('#checkboxLabel').innerHTML);
             }
         });
+        console.log(checked)
         return checked;
     }
 });
