@@ -12,10 +12,10 @@
             }
         </style>
 
-        <google-map fit-to-marker api-key="AIzaSyBU11-PY3oKECx9G6UmYOqxWRK1SXuFwOY"
+        <google-map id="google_map" fit-to-marker api-key="AIzaSyBU11-PY3oKECx9G6UmYOqxWRK1SXuFwOY"
             latitude="[[ info.latitude ]]"
             longitude="[[ info.longitude ]]">
-            <google-map-marker slot="markers"
+            <google-map-marker id="map_marker" slot="markers"
                 latitude="[[ info.latitude ]]" 
                 longitude="[[ info.longitude ]]"
                 draggable="true">
@@ -29,6 +29,19 @@
 
             properties: {
                 info: Object,
+            },
+
+            update_marker: function() {
+                var lat_long = new google.maps.LatLng(this.info.latitude, this.info.longitude);
+                var mapOptions = {
+                    zoom: 10,
+                    center: lat_long
+                }
+                var map = new google.maps.Map(this.$.google_map, mapOptions);
+                var marker = new google.maps.Marker({
+                    position: lat_long
+                });
+                marker.setMap(map);
             }
         });
     </script>

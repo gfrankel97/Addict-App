@@ -4,6 +4,9 @@
 
 <dom-module id="rehab-site">
     <style>
+        :host {
+            overflow-x: hidden;
+        }
         :host, iron-pages, home-page, results-page {
             display: block;
             width: 100%;
@@ -38,43 +41,16 @@
             },
 
             api_request: function (event) {
-                console.log('implement API when back end is done');
+                var xobj = new XMLHttpRequest();
+                xobj.open('POST', 'https://rehabresourcebackend20180409114806.azurewebsites.net/api/People?json=' + JSON.stringify(event.detail), true);
+                xobj.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xobj.onreadystatechange = function() {
+                    if (xobj.readyState == 4 && xobj.status == 200) {
+                        this.results = JSON.parse(xobj.responseText);
+                    }
+                }.bind(this);
+                xobj.send();
                 this.state = 1;
-                this.results = [
-                    { 
-                        'id': 0,
-                        'name': 'foo',
-                        'location': '1234 Main Street',
-                        'openBeds': 50,
-                        'maxBeds': 200,
-                        'latitude': 38,
-                        'longitude': -85,
-                        'phone': '867-5309',
-                        'url': 'https://www.foo.bar/'
-                    },
-                    { 
-                        'id': 1,
-                        'name': 'bar',
-                        'location': '431 1st Street',
-                        'openBeds': 3,
-                        'maxBeds': 20,
-                        'latitude': 40,
-                        'longitude': -74,
-                        'phone': '867-5309',
-                        'url': 'https://www.foo.bar/'
-                    },
-                    { 
-                        'id': 2,
-                        'name': 'baz',
-                        'location': '8 Broadway',
-                        'openBeds': 0,
-                        'maxBeds': 60,
-                        'latitude': 47,
-                        'longitude': -122,
-                        'phone': '867-5309',
-                        'url': 'https://www.foo.bar/'
-                    },
-                ]
             },
 
             back_to_search: function (event) {

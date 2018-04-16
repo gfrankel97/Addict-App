@@ -10,6 +10,7 @@
                 display: block;
                 width: 100%;
                 border-bottom: 1px solid rgba(0,0,0,0.1);
+                background-color: var(--paper-grey-100);
             }
 
             h2 {
@@ -41,11 +42,11 @@
     <template>
         <style>
             :host {
-                display: block;
                 min-width: 100px;
                 --paper-menu-focused-item-after: {
                     display: none;
                 };
+                overflow-y: scroll;
             }
 
             paper-menu {
@@ -58,7 +59,7 @@
 
         <paper-menu selected="{{ selected_result_i }}">
             <template is="dom-repeat" items="[[ results ]]">
-                <result-listing data="[[ item ]]"></result-listing>
+                <result-listing data="[[ item ]]" on-tap="result_tapped"></result-listing>
             </template>
         </paper-menu>
     </template>
@@ -80,6 +81,10 @@
             compute_selected_result: function(i) {
                 return this.results[i];
             },
+
+            result_tapped: function(event) {
+                this.fire('result_tapped', event.model);
+            }
         });
     </script>
 </dom-module>

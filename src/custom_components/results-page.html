@@ -36,6 +36,21 @@
             display: flex;
             flex-direction: row;
             height: calc(100% - 128px);
+            
+        }
+        
+        result-list {
+            height: calc(100% - 128px);
+        }
+
+        #result_list_div {
+            height: calc(100% - 128px);
+        }
+
+        .sidebar {
+            height: 100%;
+            overflow-y: scroll;
+            overflow-x: hidden;
         }
 
         .button {
@@ -84,9 +99,9 @@
                     <iron-icon icon="icons:arrow-back" slot="item-icon"></iron-icon>
                     Back to Search
                 </paper-icon-item>
-                <results-list results="[[ results ]]" selected_result="{{ result }}"></paper-table>
+                <div id="result_list_div"><results-list results="[[ results ]]" selected_result="{{ result }}"></results-list></div>
             </iron-collapse>
-            <hospital-info info="[[ result ]]"></hospital-info>
+            <hospital-info id="hospital_info" info="[[ result ]]"></hospital-info>
         </div>
     </template>
 
@@ -104,6 +119,10 @@
                 }
             },
 
+            listeners: {
+                'result_tapped': 'update_info'
+            },
+
             return_to_search: function (event) {
                 this.fire('back_to_search');
             },
@@ -114,6 +133,11 @@
 
             reset: function() {
                 this.result = undefined;
+            },
+
+            update_info: function(event) {
+                this.result = event.detail.__data__.item;
+                this.$.hospital_info.update_marker();
             }
         });
     </script>

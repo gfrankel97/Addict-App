@@ -88,6 +88,10 @@
             margin: 0px 8px 12px 12px;
         }
 
+        paper-radio-button {
+            --paper-radio-button-checked-color: #81D4FA;
+        }
+
         paper-button:hover {
             background-color: #E1F5FE;
         }
@@ -108,7 +112,7 @@
         <div id="page">
             <app-header effects="waterfall">
                 <app-toolbar>
-                    <div main-title class="main-title">Opiate Project Website</div>
+                    <div main-title class="main-title">Rehab Resources</div>
                 </app-toolbar>
             </app-header>
             <div id="header">Selection Survey</div>
@@ -313,7 +317,6 @@ Polymer({
                 ethnicity: this.$.ethnicity.selected,
                 age: this.$.age.selected
         };
-        console.log('PAYLOAD: ', JSON.stringify(payload))
         this.fire('query', payload);
     },
 
@@ -321,7 +324,6 @@ Polymer({
         var checked = [];
         checkboxes.forEach(function(checkbox) {
             if(checkbox.checked) {
-                //DONT PUSH SELECT ALL
                 checked.push(checkbox.querySelector('#checkboxLabel').innerHTML);
             }
         });
