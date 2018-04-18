@@ -1,0 +1,129 @@
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
+
+
+<dom-module id="input-card">
+    <style>
+        paper-card {
+            color: #B0BEC5;
+            width: calc(100% - 32px);
+            background-color: #EEEEEE;
+            margin: 16px;
+        }
+
+        .section-title {
+            padding: 16px;
+            background-color: #81D4FA;
+            color: #000000;
+        }
+
+        paper-checkbox {
+            --paper-checkbox-checked-color: #81D4FA;
+            --paper-checkbox-label : {
+                width: calc(100% - 18px);
+            };
+            width: calc(100% - 32px);
+            padding: 16px;
+        }
+
+        paper-radio-group {
+            width: 100%;
+        }
+
+        paper-radio-button {
+            --paper-radio-button-checked-color: #81D4FA;
+            width: calc(100% - 24px);
+        }
+    </style>
+    <template>
+        <template is="dom-if" if="[[ is_checkbox ]]">
+            <paper-card id="checkbox_group">
+                <div class="section-title">[[ title ]]</div>
+                <template is="dom-repeat" items="[[ items ]]" as=item>
+                    <paper-checkbox >[[ item ]]</paper-checkbox>
+                </template>
+            </paper-card>
+        </template>
+        <template is="dom-if" if="[[ is_radio ]]" restamp>
+            <paper-card>
+                <div class="section-title">[[ title ]]</div>
+                    <paper-radio-group id="radio_group">
+                        <template is="dom-repeat" items="[[ items ]]" as=item restamp>
+                            <paper-radio-button on-tap="uncheck">[[ item ]]</paper-radio-button>
+                        </template>
+                    </paper-radio-group>
+            </paper-card>
+        </template>
+    </template>
+</dom-module>
+
+<script>
+Polymer({
+    is: 'input-card',
+
+    properties: {
+        is_checkbox: {
+            type: Boolean,
+            value: false
+        },
+        is_radio: {
+            type: Boolean,
+            value: false
+        },
+        is_yes_no: {
+            type: Boolean,
+            value: false
+        },
+        items: {
+            type: Array,
+            value: []
+        },
+        title: {
+            type: String,
+            value: ''
+        }
+    },
+
+    ready: function() {
+        if(this.is_yes_no) {
+            this.items = ["Yes", "No"];
+        }
+    },
+
+    uncheck: function(event) {
+        var radio_buttons = this.querySelector('#radio_group').querySelectorAll('paper-radio-button');
+        var target_text = event.target.querySelector('#radioLabel') ? event.target.querySelector('#radioLabel').innerHTML : event.target.innerHTML;
+
+        for(var i=0; i < radio_buttons.length; i++) {
+            if(target_text != radio_buttons[i].querySelector('#radioLabel').innerHTML) {
+                radio_buttons[i].checked = false;
+            }
+        }
+    },
+
+    get_selected_items: function() {
+        if(this.is_checkbox) {
+            var checked = [],
+                checkboxes = this.querySelector('#checkbox_group').querySelectorAll('paper-checkbox');
+            checkboxes.forEach(function(checkbox) {
+                if(checkbox.checked) {
+                    checked.push(checkbox.querySelector('#checkboxLabel').innerHTML);
+                }
+            });
+            return checked;
+        }
+        else if(this.is_radio) {
+            var selected = undefined,
+                radio_buttons = this.querySelector('#radio_group').querySelectorAll('paper-radio-button');
+            radio_buttons.forEach(function(radio_button) {
+                if(radio_button.checked) {
+                    selected = radio_button.querySelector('#radioLabel').innerHTML;
+                }
+            });
+            return selected;
+        }
+    }
+});
+</script>

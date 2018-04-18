@@ -1,0 +1,173 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-menu/paper-menu.html">
+
+
+<dom-module id="paper-row">
+    <template>
+        <style>
+            :host paper-item {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+                height: 48px;
+                padding: 0px;
+                margin: 0px;
+            }
+
+            div {
+                display: block;
+                height: 48px;
+                padding: 0px 16px;
+                border-right: 1px solid var(--paper-grey-300);
+                border-bottom: 1px solid var(--paper-grey-300);
+            }
+
+            span {
+                line-height: 48px;
+                vertical-align: middle;
+            }
+        </style>
+
+        <paper-item>
+            <template is="dom-repeat" items="[[ columns ]]">
+                <div style$="width:[[ get_column_width(columns) ]]">
+                    <span>[[ item ]]</span>
+                </div>
+            </template>
+        </paper-item>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'paper-row',
+
+            properties: {
+                columns: Array
+            },
+
+            get_column_width: function (cs) {
+                return (100 / cs.length) + '%';
+            }
+        });
+    </script>
+</dom-module>
+
+
+<dom-module id="table-header">
+    <template>
+        <style>
+            :host {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+                height: 48px;
+                padding: 0px;
+                margin: 0px;
+            }
+
+            paper-item {
+                display: block;
+                border-right: 1px solid var(--paper-grey-300);
+                border-bottom: 1px solid var(--paper-grey-300);
+                height: 100%;
+                background-color: var(--paper-grey-100);
+            }
+
+            span {
+                line-height: 48px;
+                vertical-align: middle;
+            }
+        </style>
+
+        <template is="dom-repeat" items="[[ columns ]]">
+            <paper-item style$="width:[[ get_column_width(columns) ]]">
+                <span>[[ capitalize(item) ]]</span>
+            </paper-item>
+        </template>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'table-header',
+
+            properties: {
+                columns: Array,
+                sort_by: {
+                    type: String,
+                    value: 'id'
+                }
+            },
+
+            get_column_width: function (cs) {
+                return (100 / cs.length) + '%';
+            },
+
+            capitalize: function (s) {
+                return s.replace(
+                    /[A-Z]/g,
+                    function (c) { return ' ' + c; }
+                ).replace(
+                    /^[a-z]/,
+                    function (c) { return c.toUpperCase(); }
+                );
+            }
+        });
+    </script>
+</dom-module>
+
+
+<dom-module id="paper-table">
+    <template>
+        <style>
+            :host {
+                display: block;
+                min-width: 100px;
+                border-top: 1px solid var(--paper-grey-300);
+                border-left: 1px solid var(--paper-grey-300);
+            }
+
+            paper-menu {
+                padding: 0px;
+                margin: 0px;
+            }
+        </style>
+
+        <table-header columns="[[ columns ]]"></table-header>
+        <paper-menu selected="{{ selected_row_i }}">
+            <template is="dom-repeat" items="[[ rows ]]">
+                <paper-row columns="[[ get_row_fields(item, columns) ]]"></paper-row>
+            </template>
+        </paper-menu>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'paper-table',
+
+            properties: {
+                columns: Array,
+                rows: Array,
+                selected_row_i: Number,
+                selected_row: {
+                    type: Object,
+                    computed: 'compute_selected_row(selected_row_i)',
+                    notify: true
+                }
+            },
+
+            get_row_fields: function (row, column_ids) {
+                var row_fields = []
+                for (var i in column_ids) {
+                    row_fields.push(row[column_ids[i]]);
+                }
+                return row_fields;
+            },
+
+            compute_selected_row: function(i) {
+                return this.rows[i];
+            },
+        });
+    </script>
+</dom-module>
+

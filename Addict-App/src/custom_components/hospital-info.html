@@ -1,0 +1,48 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/google-map/google-map.html">
+
+<dom-module id="hospital-info">
+    <template>
+        <style>
+            :host, google-map {
+                display: block;
+                height: 100%;
+                width: 100%;
+            }
+        </style>
+
+        <google-map id="google_map" fit-to-marker api-key="AIzaSyBU11-PY3oKECx9G6UmYOqxWRK1SXuFwOY"
+            latitude="[[ info.latitude ]]"
+            longitude="[[ info.longitude ]]">
+            <google-map-marker id="map_marker" slot="markers"
+                latitude="[[ info.latitude ]]" 
+                longitude="[[ info.longitude ]]"
+                draggable="true">
+            </google-map-marker>
+        </google-map>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'hospital-info',
+
+            properties: {
+                info: Object,
+            },
+
+            update_marker: function() {
+                var lat_long = new google.maps.LatLng(this.info.latitude, this.info.longitude);
+                var mapOptions = {
+                    zoom: 10,
+                    center: lat_long
+                }
+                var map = new google.maps.Map(this.$.google_map, mapOptions);
+                var marker = new google.maps.Marker({
+                    position: lat_long
+                });
+                marker.setMap(map);
+            }
+        });
+    </script>
+</dom-module>
