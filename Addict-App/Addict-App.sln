@@ -1,14 +1,17 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Addict-App", "Addict-App.mdproj", "{C05A5511-13EF-4856-B3C7-9A416C7BF128}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Addict-App", "Addict-App.csproj", "{F0CF4986-B868-454A-BE87-2A2E438A73BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Default|Any CPU = Default|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C05A5511-13EF-4856-B3C7-9A416C7BF128}.Default|Any CPU.ActiveCfg = Default|Any CPU
-		{C05A5511-13EF-4856-B3C7-9A416C7BF128}.Default|Any CPU.Build.0 = Default|Any CPU
+		{F0CF4986-B868-454A-BE87-2A2E438A73BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0CF4986-B868-454A-BE87-2A2E438A73BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0CF4986-B868-454A-BE87-2A2E438A73BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0CF4986-B868-454A-BE87-2A2E438A73BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

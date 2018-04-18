@@ -1,0 +1,14 @@
+﻿<Properties StartupConfiguration="{F0CF4986-B868-454A-BE87-2A2E438A73BC}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="src/custom_components/home-page.html">
+    <Files>
+      <File FileName="src/custom_components/home-page.html" Line="31" Column="10" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.Addict-App PreferredExecutionTarget="MonoDevelop.Default" FirstBuild="True" />
+</Properties>
